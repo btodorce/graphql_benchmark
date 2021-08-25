@@ -1,0 +1,101 @@
+[
+  {
+    "name": "ContactsPaginated-autocannon-200rps",
+    "time": {
+      "start": "2021-08-12T10:53:39.486Z",
+      "end": "2021-08-12T10:53:49.620Z"
+    },
+    "requests": {
+      "count": 0,
+      "average": 0
+    },
+    "response": {
+      "totalBytes": 0,
+      "bytesPerSecond": 0
+    },
+    "histogram": {
+      "json": {
+        "p50": 0,
+        "p75": 0,
+        "p90": 0,
+        "p97_5": 0,
+        "p99": 0,
+        "p99_9": 0,
+        "p99_99": 0,
+        "p99_999": 0,
+        "max": 0,
+        "totalCount": 0,
+        "mean": 0,
+        "min": 9007199254740.99,
+        "stdDeviation": 0
+      },
+      "parsedStats": []
+    }
+  },
+  {
+    "name": "ExpensiveQueryIncrementalLoadTest-autocannon-5s-max-requests",
+    "time": {
+      "start": "2021-08-12T10:53:49.664Z",
+      "end": "2021-08-12T10:53:54.694Z"
+    },
+    "requests": {
+      "count": 0,
+      "average": 0
+    },
+    "response": {
+      "totalBytes": 0,
+      "bytesPerSecond": 0
+    },
+    "histogram": {
+      "json": {
+        "p50": 0,
+        "p75": 0,
+        "p90": 0,
+        "p97_5": 0,
+        "p99": 0,
+        "p99_9": 0,
+        "p99_99": 0,
+        "p99_999": 0,
+        "max": 0,
+        "totalCount": 0,
+        "mean": 0,
+        "min": 9007199254740.99,
+        "stdDeviation": 0
+      },
+      "parsedStats": []
+    }
+  },
+  {
+    "name": "ExpensiveMutationFixedRequestsTest-autocannon-4000-fixed-requests",
+    "time": {
+      "start": "2021-08-12T10:53:54.721Z",
+      "end": "2021-08-12T10:56:25.492Z"
+    },
+    "requests": {
+      "count": 0,
+      "average": 0
+    },
+    "response": {
+      "totalBytes": 0,
+      "bytesPerSecond": 0
+    },
+    "histogram": {
+      "json": {
+        "p50": 0,
+        "p75": 0,
+        "p90": 0,
+        "p97_5": 0,
+        "p99": 0,
+        "p99_9": 0,
+        "p99_99": 0,
+        "p99_999": 0,
+        "max": 0,
+        "totalCount": 0,
+        "mean": 0,
+        "min": 9007199254740.99,
+        "stdDeviation": 0
+      },
+      "parsedStats": []
+    }
+  }
+]

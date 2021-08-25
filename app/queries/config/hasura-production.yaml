@@ -1,0 +1,36 @@
+url: https://api-v2.pabau.com/v1/graphql
+headers:
+  X-Hasura-Admin-Secret: aldnmfbhfiu2hrtytbnfjkfhsbdfm
+queries:
+  - name: Staging-FeatureFlagsPerformanceTest
+    tools: [autocannon, wrk2]
+    execution_strategy: REQUESTS_PER_SECOND
+    rps: 5000
+    duration: 5s
+    connections: 200
+    query: |
+      query featereFlags {
+        feature_flags {
+          fallback_slug
+          id
+          page_slug
+          status
+        }
+      }
+  - name: Staging-ChatMaxRequestsPerSecond
+    tools: [autocannon, wrk2]
+    execution_strategy: MAX_REQUESTS_IN_DURATION
+    duration: 5s
+    query: |
+      query chatWithRemoteFK{
+        chat {
+          company_id
+          created_at
+          fromUser {
+            username
+          }
+          toUser {
+            username
+          }
+        }
+      }

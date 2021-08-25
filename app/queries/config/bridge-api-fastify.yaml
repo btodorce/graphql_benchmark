@@ -1,0 +1,56 @@
+url: https://api-toshe.pabau.me/graphql
+headers: 
+  x-hasura-admin-secret: aldnmfbhfiu2hrtytbnfjkfhsbdfm,
+  Content-Type: application/json,
+  authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJyZW1vdGVfdXJsIjoiaHR0cHM6Ly90b3NoZS5wYWJhdS5tZSIsInJlbW90ZV9jb25uZWN0IjpudWxsLCJ1c2VyIjo4MzkwMSwiY29tcGFueSI6ODI1NCwiYWRtaW4iOnRydWUsIm93bmVyIjpmYWxzZSwibGFuZ3VhZ2UiOnsidXNlciI6IkVOLUdCIiwiY29tcGFueSI6ImVuIn0sImh0dHBzOi8vaGFzdXJhLmlvL2p3dC9jbGFpbXMiOnsieC1oYXN1cmEtYWxsb3dlZC1yb2xlcyI6WyJwdWJsaWMiLCJ1c2VyIl0sIngtaGFzdXJhLWRlZmF1bHQtcm9sZSI6InVzZXIiLCJ4LWhhc3VyYS11c2VyLWlkIjoiODM5MDEiLCJ4LWhhc3VyYS1vcmctaWQiOiI4MjU0IiwieC1oYXN1cmEtcGFiYXUiOiJ0ZXN0In0sImlhdCI6MTYyODcxMTY0NX0.0-Wl4NCZt1hZQUBrW1BRV1GbgkNGzYJSQnJh4oCKdTT80e-uepXyt3taeLqfwcYUNRGDyfIhRjfeYTgdORym7A
+queries:
+  - name: ContactsPaginated
+    tools: [autocannon]
+    execution_strategy: REQUESTS_PER_SECOND
+    rps: 200
+    duration: 10s
+    connections: 50
+    query: |
+      query ContactsPaginated {
+        findManyCmContact(take: 200) {
+          ID
+          Avatar
+          OwnerID
+        }
+      }
+  - name: ExpensiveQueryIncrementalLoadTest
+    tools: [autocannon]
+    execution_strategy: MAX_REQUESTS_IN_DURATION
+    duration: 5s
+    query: |
+      query UsersWithSearchAndNestedModels {
+        findManyUser(where: {
+          username: {
+            not: {
+              contains: "@deletecd"
+            }
+          }
+        }) {
+          id
+          full_name
+          Booking(take: 50) {
+            id
+            UID
+            title
+          }
+          InvProduct {
+            code
+            id
+            unit
+          }
+        }
+      }
+
+  - name: ExpensiveMutationFixedRequestsTest
+    tools: [autocannon]
+    execution_strategy: FIXED_REQUEST_NUMBER
+    requests: 4000
+    query: |
+      mutation Login{
+        login(username: "new@crm.pabau.com", password: "Toshe@1234")
+      }

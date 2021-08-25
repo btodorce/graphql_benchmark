@@ -1,47 +1,60 @@
-url: http://localhost:8085/v1/graphql
+url: 'https://api-toshe.pabau.me/graphql'
 headers:
-  X-Hasura-Admin-Secret: my-secret
+  authorization: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJyZW1vdGVfdXJsIjoiaHR0cHM6Ly90b3NoZS5wYWJhdS5tZSIsInJlbW90ZV9jb25uZWN0IjpudWxsLCJ1c2VyIjo4MzkwMSwiY29tcGFueSI6ODI1NCwiYWRtaW4iOnRydWUsIm93bmVyIjpmYWxzZSwibGFuZ3VhZ2UiOnsidXNlciI6IkVOLUdCIiwiY29tcGFueSI6ImVuIn0sImh0dHBzOi8vaGFzdXJhLmlvL2p3dC9jbGFpbXMiOnsieC1oYXN1cmEtYWxsb3dlZC1yb2xlcyI6WyJwdWJsaWMiLCJ1c2VyIl0sIngtaGFzdXJhLWRlZmF1bHQtcm9sZSI6InVzZXIiLCJ4LWhhc3VyYS11c2VyLWlkIjoiODM5MDEiLCJ4LWhhc3VyYS1vcmctaWQiOiI4MjU0IiwieC1oYXN1cmEtcGFiYXUiOiJ0ZXN0In0sImlhdCI6MTYyODc1NDUwMH0.g0Ar3OgTvWXW7QpENyFyzJxZz-Ob58aP9NHih5qRqNTdF0549mBou7X1cyjJKzEO2xE5TfY_xwMHV5eh90oWKg
 queries:
-  - name: SearchAlbumsWithArtist
-    tools: [wrk2, k6, autocannon]
+  - name: ContactsPaginated
+    tools: [autocannon, wrk]
     execution_strategy: REQUESTS_PER_SECOND
-    rps: 500
-    duration: 60s
+    rps: 200
+    duration: 10s
+    connections: 50
     query: |
-      query SearchAlbumsWithArtist {
-        albums(where: {title: {_like: "%Rock%"}}) {
+      query ContactsPaginated {
+        findManyCmContact(take: 200) {
+          ID
+          Avatar
+          OwnerID
+        }
+      }
+  - name: Login
+    tools: [autocannon, wrk]
+    execution_strategy: FIXED_REQUEST_NUMBER
+    requests: 2000
+    query: |
+      mutation Login{
+        login(username: "new@crm.pabau.com", password: "Toshe@1234")
+      }
+  - name: ExpensiveQuery
+    tools: [autocannon, wrk]
+    execution_strategy: MULTI_STAGE
+    initial_rps: 0
+    stages:
+      - duration: 5s
+        target: 100
+      - duration: 5s
+        target: 200
+      - duration: 5s
+        target: 400
+    query: |
+      query UsersWithSearchAndNestedModels {
+        findManyUser(where: {
+          username: {
+            not: {
+              contains: "@deletecd"
+            }
+          }
+        }) {
           id
-          title
-          artist {
-            name
+          full_name
+          Booking(take: 50) {
             id
+            UID
+            title
+          }
+          InvProduct {
+            code
+            id
+            unit
           }
         }
       }
-  # - name: AlbumByPK
-  #   tools: [autocannon, k6]
-  #   execution_strategy: FIXED_REQUEST_NUMBER
-  #   requests: 10000
-  #   query: |
-  #     query AlbumByPK {
-  #       albums_by_pk(id: 1) {
-  #         id
-  #         title
-  #       }
-  #     }
-  # - name: AlbumByPKMultiStage
-  #   tools: [k6]
-  #   execution_strategy: MULTI_STAGE
-  #   initial_rps: 0
-  #   stages:
-  #     - duration: 5s
-  #       target: 100
-  #     - duration: 5s
-  #       target: 1000
-  #   query: |
-  #     query AlbumByPK {
-  #       albums_by_pk(id: 1) {
-  #         id
-  #         title
-  #       }
-  #     }

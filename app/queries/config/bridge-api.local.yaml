@@ -1,0 +1,54 @@
+url: http://localhost:8080/v1/graphql
+headers:
+  X-Hasura-Admin-Secret: 12312312312344441234
+  authorization: eyJhbGci12122OiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJyZW1vdGVfdXJsIjoiaHR0cHM6Ly90b3NoZS5wYWJhdS5tZSIsInJlbW90ZV9jb25uZWN0IjoiaHR0cHM6Ly90b3NoZS5wYWJhdS5tZSIsInVzZXIiOjgyODE3LCJjb21wYW55Ijo4MjU0LCJhZG1pbiI6dHJ1ZSwib3duZXIiOnRydWUsImxhbmd1YWdlIjp7InVzZXIiOiJFTi1HQiJ9LCJodHRwczovL2hhc3VyYS5pby9qd3QvY2xhaW1zIjp7IngtaGFzdXJhLWFsbG93ZWQtcm9sZXMiOlsicHVibGljIiwidXNlciJdLCJ4LWhhc3VyYS1kZWZhdWx0LXJvbGUiOiJ1c2VyIiwieC1oYXN1cmEtdXNlci1pZCI6IjgyODE3IiwieC1oYXN1cmEtb3JnLWlkIjoiODI1NCIsIngtaGFzdXJhLXBhYmF1IjoidGVzdCJ9LCJpYXQiOjE2Mjk1NDkxOTN9.4_K2OvivfZ3crZ-4y03aDPjxQqXhq17l_t262LYeIsCeT7hieXISkG_5ra2RNaFl4Wx-viVCAd6c0D6CzvmlWQ
+queries:
+  - name: Contacts
+    tools: [autocannon]
+    execution_strategy: REQUESTS_PER_SECOND
+    rps: 1000
+    duration: 5s
+    connections: 200
+    query: |
+      query ContactsPaginated {
+        findManyCmContact(take: 50){
+          ID
+          Avatar
+          OwnerID
+        }
+      }
+  - name: Users
+    tools: [autocannon]
+    execution_strategy: REQUESTS_PER_SECOND
+    rps: 1000
+    duration: 5s
+    connections: 200
+    query: |
+      query Users {
+        findManyUser(take: 50){
+          id
+          username
+        }
+      }
+  - name: Login
+    tools: [autocannon]
+    execution_strategy: REQUESTS_PER_SECOND
+    rps: 1000
+    duration: 5s
+    query: |
+      mutation Login{
+        login(username: "local@dev.com", password: "Toshe@1234")
+      }
+  - name: REQUESTS_PER_SECOND_ME
+    tools: [autocannon]
+    execution_strategy: REQUESTS_PER_SECOND
+    duration: 5s
+    query: |
+      query me{
+        me {
+          id
+          address
+          admin_leads
+          appear_on_rota
+        }
+      }

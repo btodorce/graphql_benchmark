@@ -1,0 +1,70 @@
+url: http://localhost:8080/v1/graphql
+headers:
+  X-Hasura-Admin-Secret: 1234
+  authorization: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJyZW1vdGVfdXJsIjoiaHR0cHM6Ly90b3NoZS5wYWJhdS5tZSIsInJlbW90ZV9jb25uZWN0IjpudWxsLCJ1c2VyIjo4MzkwMSwiY29tcGFueSI6ODI1NCwiYWRtaW4iOnRydWUsIm93bmVyIjpmYWxzZSwibGFuZ3VhZ2UiOnsidXNlciI6IkVOLUdCIn0sImh0dHBzOi8vaGFzdXJhLmlvL2p3dC9jbGFpbXMiOnsieC1oYXN1cmEtYWxsb3dlZC1yb2xlcyI6WyJwdWJsaWMiLCJ1c2VyIl0sIngtaGFzdXJhLWRlZmF1bHQtcm9sZSI6InVzZXIiLCJ4LWhhc3VyYS11c2VyLWlkIjoiODM5MDEiLCJ4LWhhc3VyYS1vcmctaWQiOiI4MjU0IiwieC1oYXN1cmEtcGFiYXUiOiJ0ZXN0In0sImlhdCI6MTYyOTg2OTUyNn0.hL74Di-Mvf-IsJA4ZsyA-kzvxcA8AMygvHhrb6fG5epsjIkAhlUpv78DxwSBKi1rC20k8gOyHnqR8mA609XHEw
+queries:
+  - name: FeatureFlags
+    tools: [autocannon]
+    execution_strategy: REQUESTS_PER_SECOND
+    rps: 1000
+    duration: 5s
+    connections: 300
+    query: |
+      query featereFlags {
+        feature_flags {
+          fallback_slug
+          id
+          page_slug
+          status
+        }
+      }
+  - name: Contacts
+    tools: [autocannon]
+    execution_strategy: REQUESTS_PER_SECOND
+    rps: 1000
+    duration: 5s
+    connections: 300
+    query: |
+      query ContactsPaginated {
+        findManyCmContact(take: 50){
+          ID
+          Avatar
+          OwnerID
+        }
+      }
+  - name: Users
+    tools: [autocannon]
+    execution_strategy: REQUESTS_PER_SECOND
+    rps: 1000
+    duration: 5s
+    connections: 300
+    query: |
+      query Users {
+        findManyUser(take: 50){
+          id
+          username
+        }
+      }
+  - name: Login
+    tools: [autocannon]
+    execution_strategy: REQUESTS_PER_SECOND
+    rps: 1000
+    duration: 5s
+    query: |
+      mutation Login{
+        login(username: "new@crm.pabau.com", password: "Toshe@1234")
+      }
+  - name: REQUESTS_PER_SECOND_ME
+    tools: [autocannon]
+    execution_strategy: REQUESTS_PER_SECOND
+    duration: 5s
+    connections: 300
+    query: |
+      query me{
+        me {
+          id
+          address
+          admin_leads
+          appear_on_rota
+        }
+      }
