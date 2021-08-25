@@ -18,6 +18,24 @@ queries:
           status
         }
       }
+  - name: Chat
+    tools: [autocannon]
+    execution_strategy: MAX_REQUESTS_IN_DURATION
+    duration: 5s
+    connections: 300
+    query: |
+      query chatWithRemoteFK{
+        chat {
+          company_id
+          created_at
+          fromUser {
+            username
+          }
+          toUser {
+            username
+          }
+        }
+      }
   - name: Contacts
     tools: [autocannon]
     execution_strategy: REQUESTS_PER_SECOND

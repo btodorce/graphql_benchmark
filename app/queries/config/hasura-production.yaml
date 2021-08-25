@@ -1,26 +1,28 @@
 url: https://api-v2.pabau.com/v1/graphql
 headers:
   X-Hasura-Admin-Secret: aldnmfbhfiu2hrtytbnfjkfhsbdfm
+  authorization: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJyZW1vdGVfdXJsIjoiaHR0cHM6Ly9uZXctY2xpbmljLnBhYmF1Lm1lIiwicmVtb3RlX2Nvbm5lY3QiOiJodHRwczovL2Nvbm5lY3QtbmV3LWNsaW5pYy5wYWJhdS5tZSIsInVzZXIiOjgzOTQ0LCJjb21wYW55Ijo4MTE5LCJhZG1pbiI6dHJ1ZSwib3duZXIiOmZhbHNlLCJsYW5ndWFnZSI6eyJ1c2VyIjoiRU4tR0IiLCJjb21wYW55IjoiZW4ifSwiaHR0cHM6Ly9oYXN1cmEuaW8vand0L2NsYWltcyI6eyJ4LWhhc3VyYS1hbGxvd2VkLXJvbGVzIjpbInB1YmxpYyIsInVzZXIiXSwieC1oYXN1cmEtZGVmYXVsdC1yb2xlIjoidXNlciIsIngtaGFzdXJhLXVzZXItaWQiOiI4Mzk0NCIsIngtaGFzdXJhLW9yZy1pZCI6IjgxMTkiLCJ4LWhhc3VyYS1wYWJhdSI6InRlc3QifSwiaWF0IjoxNjI2NTEwNjY0fQ.NK9OzxgBxmOnCiMIlJAd_MbPKSpoO2jgKYN7kS5HcW_q4_W9frx7opJ4TL_jTps52bGA__zURqsFkXgt0Bq_gA
 queries:
-  - name: Staging-FeatureFlagsPerformanceTest
-    tools: [autocannon, wrk2]
+  - name: FeatureFlags
+    tools: [autocannon]
     execution_strategy: REQUESTS_PER_SECOND
-    rps: 5000
+    rps: 1000
     duration: 5s
-    connections: 200
+    connections: 300
     query: |
       query featereFlags {
         feature_flags {
-          fallback_slug
+          fallback_sluga
           id
           page_slug
           status
         }
       }
-  - name: Staging-ChatMaxRequestsPerSecond
-    tools: [autocannon, wrk2]
+  - name: Chat
+    tools: [autocannon]
     execution_strategy: MAX_REQUESTS_IN_DURATION
     duration: 5s
+    connections: 300
     query: |
       query chatWithRemoteFK{
         chat {
@@ -32,5 +34,55 @@ queries:
           toUser {
             username
           }
+        }
+      }
+  - name: Contacts
+    tools: [autocannon]
+    execution_strategy: REQUESTS_PER_SECOND
+    rps: 1000
+    duration: 5s
+    connections: 300
+    query: |
+      query ContactsPaginated {
+        findManyCmContact(take: 50){
+          ID
+          Avatar
+          OwnerID
+        }
+      }
+  - name: Users
+    tools: [autocannon]
+    execution_strategy: REQUESTS_PER_SECOND
+    rps: 1000
+    duration: 5s
+    connections: 300
+    query: |
+      query Users {
+        findManyUser(take: 50){
+          id
+          username
+        }
+      }
+  - name: Login
+    tools: [autocannon]
+    execution_strategy: REQUESTS_PER_SECOND
+    rps: 1000
+    duration: 5s
+    query: |
+      mutation Login{
+        login(username: "new@crm.pabau.com", password: "Toshe@1234")
+      }
+  - name: REQUESTS_PER_SECOND_ME
+    tools: [autocannon]
+    execution_strategy: REQUESTS_PER_SECOND
+    duration: 5s
+    connections: 300
+    query: |
+      query me{
+        me {
+          id
+          address
+          admin_leads
+          appear_on_rota
         }
       }
