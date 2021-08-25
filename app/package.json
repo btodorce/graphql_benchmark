@@ -1,9 +1,6 @@
 {
   "private": true,
   "scripts": {
-    "fastify": "yarn graphql-bench query --config queries/config/bridge-api-fastify.yaml --outfile queries/reports/bridge-api/fastify.results.json",
-    "apollo": "yarn graphql-bench query --config queries/config/bridge-api-apollo.yaml --outfile queries/reports/bridge-api/apollo.results.json",
-    "bridge:local": "yarn graphql-bench query --config queries/config/bridge-api.local.yaml --outfile queries/reports/bridge-api/local/apollo.results.json",
     "hasura": "yarn graphql-bench query --config queries/config/hasura-production.yaml --outfile queries/reports/hasura/production/results.json",
     "hasura:local": "yarn graphql-bench query --config queries/config/hasura-local.yaml --outfile queries/reports/hasura/local/results.json"
   },
