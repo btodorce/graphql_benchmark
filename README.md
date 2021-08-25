@@ -8,3 +8,7 @@ Fork of graphql-bench
 6. run binary at app/cli/bin by running chmod +x run
 7. k6 binary at app/queries/bin/k6/ by running chmod +x k6
 8. wrk binary at app/queries/bin/wrk/ by running chmod +x wrk
+
+Once the testing has finished
+1. Open, app/web-app/index.html in your browser
+2. Load the testing results from app/queries/reports
