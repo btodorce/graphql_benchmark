@@ -1,7 +1,7 @@
 Fork of graphql-bench
 
 1. cd app
-2. install the node_modules inside app, queries and cli
+2. install the node_modules inside queries and cli
 3. Inside cd/queries/config, adjust the jwt header
 4. run binary at app/cli/bin by running chmod +x run
 5. k6 binary at app/queries/bin/k6/ by running chmod +x k6
